@@ -6,9 +6,22 @@ const createTimerAnimator = () => {
   let timerId;
   let endTime;
 
+  const formatTime = (timeInSeconds) => {
+    const hours = Math.floor(timeInSeconds / 3600);
+    const minutes = Math.floor((timeInSeconds - hours * 3600) / 60);
+    const seconds = Math.floor(timeInSeconds - hours * 3600 - minutes * 60);
+
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+
   const updateTimer = () => {
     const remainingTime = Math.max(Math.ceil((endTime - Date.now()) / 1000), 0);
-    timerEl.textContent = remainingTime;
+    const formattedTime = formatTime(remainingTime);
+    timerEl.textContent = formattedTime;
     if (remainingTime === 0) {
       clearInterval(timerId);
     }
